@@ -1,9 +1,9 @@
 ---
-title: "Presentation Ninja"
-subtitle: "⚔<br/>with xaringan"
-author: "Yihui Xie"
-institute: "RStudio, Inc."
-date: "2016/12/12 (updated: `r Sys.Date()`)"
+title: "Intro to Machine Learning with R"
+subtitle: "Very Intro."
+author: "Dan Ovando"
+institute: "University of Washington"
+date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -13,601 +13,749 @@ output:
       countIncrementalSlides: false
 ---
 
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
-
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.align = "center", dev = "svg")
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(knitr)
 ```
+
+
+# Intro to Machine Learning: Objectives
+
+We only have three hours! You won't leave here an expert in ML
+
+My goals for you: 
+
+1. Understand the motivation for machine learning
+
+2. Understand the basic workflow of predictive modeling
+
+3. Gain familiarity with the core predictive modeling tools in R
+
+4. Develop some healthy skepticism around ML
+
+---
+
+# What is Machine Learning?
+
+```{r, echo = FALSE, fig.align="center"}
+knitr::include_graphics("https://imgs.xkcd.com/comics/machine_learning.png")
+```
+
+
+---
+
+# What is Machine Learning?
+
+
+.pull-left[
+
+Artificial Intellegence has been aroudn for a long time!
+
+>The Analytical Engine has no pretensions whatever to originate anything. It can do whatever we know how to order it to perform.... Its province is to assist us in making available what we’re already acquainted with
+>
+> `r tufte::quote_footer('--- Lady Ada Lovelace, 1843')`
+
+]
+.pull-right[
+`r include_graphics(here::here("presentations","imgs","ai-ml-dl.png"))`
+]
+
+.footnote[
+Chollet & Allaire 2018 - Deep Learning with R
+]
+
+???
+In reference to a mechanical computer called the Analytical Engine, referenced by Alan Turing
+---
+
+# What is Machine Learning?
+
+
+.pull-left[
+
+Machine learning advanced structural AI by asking whether computers could **learn** new tasks. 
+
+- "Classical" programming says "if email contains 'get rich quick!' mark as spam
+
+- Machine learning asks given known examples of spam, can computer find rules to identify it?
+
+]
+.pull-right[
+`r include_graphics(here::here("presentations","imgs","ai-ml-dl.png"))`
+]
+
+.footnote[
+Chollet & Allaire 2018 - Deep Learning with R
+]
+
+???
+In reference to a mechanical computer called the Analytical Engine, referenced by Alan Turing
+---
+
+
+# ML for Predictive Modeling
+
+The primary application for machine learning is **prediction**, not "understanding"
+
+Modeling for Prediction: "Will it rain?"
+  - Are people carrying umbrellas? Probably gonna rain. 
+  - Test by out-of-sample prediction
+  - Realm of machine learning
+  
+Modeling for Inference: "Why does it rain?"
+  - Probably not because of umbrellas. 
+  - Test by experimentation
+  - Realm of statistics
+  
+Correlation does not equal causation, but some correlations can be great predictors  
+
+**Big red flag: Works claiming to use machine learning for "why" questions**
 
 ???
 
-Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
-
----
-class: center, middle
-
-# xaringan
-
-### /ʃaː.'riŋ.ɡan/
-
----
-class: inverse, center, middle
-
-# Get Started
+IMO, ecology sometimes has a bad habit of worst of both worlds: low R<sup>2</sup> and no identification strategy
 
 ---
 
-# Hello World
+# The Predctive Modeling Workflow
 
-Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
+1. Obtain labeled dataset
 
-```{r eval=FALSE, tidy=FALSE}
-devtools::install_github("yihui/xaringan")
+2. Split into training and testing sets
+  - Lock the testing set
+  
+3. Use the training set to train and select final model
+  - Split into analysis and assessment sets
+
+4. Apply final model to testing set and see how you did
+
+
+---
+
+# Predictive Modeling
+
+"Predictive" nature of most ML makes it much more engineering than theory focused.
+
+The proof is in the pudding: If it predicts well, who cares why?
+
+The focus goes from identification strategies and probability theory to
+
+- How good is the training dataset?
+
+- How valid is the training/testing 
+
+---
+
+# Predictive Modeling
+I sometimes use ML as a test for "ceiling" of predictability given data
+
+  - Helps learn how much prediction insight is costing you
+
+```{r, out.height=400, echo = FALSE}
+ include_graphics(here::here("presentations","imgs","skynet.png"))
 ```
 
---
-
-You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
-
-- Create a new R Markdown document from the menu `File -> New File -> R Markdown -> From Template -> Ninja Presentation`;<sup>1</sup>
-
---
-
-- Click the `Knit` button to compile it;
-
---
-
-- or use the [RStudio Addin](https://rstudio.github.io/rstudioaddins/)<sup>2</sup> "Infinite Moon Reader" to live preview the slides (every time you update and save the Rmd document, the slides will be automatically reloaded in RStudio Viewer.
-
-.footnote[
-[1] 中文用户请看[这份教程](http://slides.yihui.name/xaringan/zh-CN.html)
-
-[2] See [#2](https://github.com/yihui/xaringan/issues/2) if you do not see the template or addin in RStudio.
-]
-
 ---
-background-image: url(`r xaringan:::karl`)
-background-position: 50% 50%
-class: center, bottom, inverse
 
-# You only live once!
+# Predictive Modeling
+
+Predictive modeling falls under "supervised learning" (as opposed to unsupervised, things like clustering algorithms)
+
+Regression (continuous response)
+  - Predict presence of marine mammals
+  - Predict sales on a given day
+  - Predict salmon returns
+  - Judged by things like mean squared error
+
+Classification (categorical response)
+  - What kind of fish is this?
+  - Does a person have a disease?
+  - Judged by things like classification accuracy
+
+???
+This branch of machine learning consists of finding interesting transformations of the input data without the help of any targets, for the purposes of data visualization, data compression, or data denoising, or to better understand the correlations present in the data at hand
+
+Think PCA
 
 ---
 
-# Hello Ninja
-
-As a presentation ninja, you certainly should not be satisfied by the "Hello World" example. You need to understand more about two things:
-
-1. The [remark.js](https://remarkjs.com) library;
-
-1. The **xaringan** package;
-
-Basically **xaringan** injected the chakra of R Markdown (minus Pandoc) into **remark.js**. The slides are rendered by remark.js in the web browser, and the Markdown source needed by remark.js is generated from R Markdown (**knitr**).
-
----
-
-# remark.js
-
-You can see an introduction of remark.js from [its homepage](https://remarkjs.com). You should read the [remark.js Wiki](https://github.com/gnab/remark/wiki) at least once to know how to
-
-- create a new slide (Markdown syntax<sup>*</sup> and slide properties);
-
-- format a slide (e.g. text alignment);
-
-- configure the slideshow;
-
-- and use the presentation (keyboard shortcuts).
-
-It is important to be familiar with remark.js before you can understand the options in **xaringan**.
-
-.footnote[[*] It is different with Pandoc's Markdown! It is limited but should be enough for presentation purposes. Come on... You do not need a slide for the Table of Contents! Well, the Markdown support in remark.js [may be improved](https://github.com/gnab/remark/issues/142) in the future.]
-
----
-background-image: url(`r xaringan:::karl`)
-background-size: cover
-class: center, bottom, inverse
-
-# I was so happy to have discovered remark.js!
-
----
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-Provides an R Markdown output format `xaringan::moon_reader` as a wrapper for remark.js, and you can use it in the YAML metadata, e.g.
-
-```yaml
----
-title: "A Cool Presentation"
-output:
-  xaringan::moon_reader:
-    yolo: true
-    nature:
-      autoplay: 30000
----
-```
-
-See the help page `?xaringan::moon_reader` for all possible options that you can use.
-
----
-
-# remark.js vs xaringan
-
-Some differences between using remark.js (left) and using **xaringan** (right):
+# A Bestiary of Machine Learning Models
 
 .pull-left[
-1. Start with a boilerplate HTML file;
+Nearly all ML methods can be used for regression or classification
 
-1. Plain Markdown;
+- Random forests
+  - [`ranger`](https://github.com/imbs-hl/ranger)
 
-1. Write JavaScript to autoplay slides;
+- Gradient boosting machines
+  - [`xgboost`](https://xgboost.readthedocs.io/en/latest/)
 
-1. Manually configure MathJax;
+- Neural Networks
+  - [`keras/TensorFlow`](https://tensorflow.rstudio.com/)
+] .pull-right[
 
-1. Highlight code with `*`;
-
-1. Edit Markdown source and refresh browser to see updated slides;
-]
-
-.pull-right[
-1. Start with an R Markdown document;
-
-1. R Markdown (can embed R/other code chunks);
-
-1. Provide an option `autoplay`;
-
-1. MathJax just works;<sup>*</sup>
-
-1. Highlight code with `{{}}`;
-
-1. The RStudio addin "Infinite Moon Reader" automatically refreshes slides on changes;
-]
-
-.footnote[[*] Not really. See next page.]
-
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-# R Code
-
-```{r comment='#'}
-# a boring regression
-fit = lm(dist ~ 1 + speed, data = cars)
-coef(summary(fit))
-dojutsu = c('地爆天星', '天照', '加具土命', '神威', '須佐能乎', '無限月読')
-grep('天', dojutsu, value = TRUE)
-```
-
----
-
-# R Plots
-
-```{r cars, fig.height=4, dev='svg'}
-par(mar = c(4, 4, 1, .1))
-plot(cars, pch = 19, col = 'darkgray', las = 1)
-abline(fit, lwd = 2)
-```
-
----
-
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+There are lots of them....
 
 ```{r}
-knitr::kable(head(iris), format = 'html')
+caret::getModelInfo() %>% names()
+```
+
+
+]
+
+---
+
+# Random Forests
+
+.pull-left[
+Random forests (Breiman 2001) are a realiable workhorse of the ML world
+- Usually not the best
+- Rarely the worst
+- Pretty hard to mess up too badly
+
+Random forests are ensembles of regression trees
+
+  - Algorithm learns split variables and breakpoints
+  
+  - Each tree is low-bias, high-variance
+  
+  - A "forest" of trees is low-bias, low(er)-variance
+
+
+] .pull-right[
+
+`r include_graphics(here::here("presentations","imgs","nico.png"))`
+
+.footnote[Gutiérrez, Hilborn, & Defeo 2011]
+
+]
+
+---
+
+
+# Random Forests
+
+```{r, out.height=400, echo = FALSE}
+ include_graphics(here::here("presentations","imgs","rf.png"))
+```
+
+.footnote[Kuhn & Johnson 2016]
+
+---
+
+# The Predictive Modeling Framework
+
+1. Split into testing and training data. Split training data into analysis and assessment splits
+  - [`rsample`](https://tidymodels.github.io/rsample/)
+
+2. Preprocess data in analysis splits
+  - [`recipes`](https://tidymodels.github.io/recipes/)
+  - For extra credit, blind the data
+  
+3. Fit models to analysis splits, test on assessment
+  - [`purrr`](https://purrr.tidyverse.org/)
+  - [`parsnip`](https://www.tidyverse.org/blog/2018/11/parsnip-0-0-1/)
+  - [`yardstick`](https://tidymodels.github.io/yardstick/)
+  
+4. Fit selected model on preprocessed training data, test on testing data
+  - [`parsnip`](https://www.tidyverse.org/blog/2018/11/parsnip-0-0-1/)
+  - Cross fingers
+
+
+---
+
+# The Predictive Modeling Framework
+
+
+```{r, echo = FALSE}
+include_graphics(here::here("presentations","imgs","flow.png"))
+```
+
+.footnote[From Max Kuhn's Predictive Modeling Workshop]
+
+---
+
+# Why R for ML?
+
+I thought I was supposed to use Python for machine learning?
+
+Very few (no?) ML models are actually **written** in R. Most in versions of C++/Python/CUDA. 
+
+But, nearly all have interfaces with other languages. That means you can do all the data-wrangling in R, pass to ML models, then process and plot results in R
+
+  - R is really good at this
+  
+Python is more common for these things so a bit more documentation, but documentation is also denser. 
+  - Might be worth exploring if you're dealing with big data
+
+
+---
+
+# Our example Data
+
+We're going to use some data on abalone ages from the [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets/Abalone), accessed through the `AppliedPredictiveModeling` package. 
+
+```{r}
+library(AppliedPredictiveModeling)
+data(abalone)
+abalone <- abalone %>% 
+  janitor::clean_names()
+glimpse(abalone)
+```
+
+
+---
+
+
+# Abalone Ages
+
+Age in years is rings + 1.5
+
+.pull-left[
+```{r}
+
+abalone <- abalone %>% 
+  mutate(age = rings + 1.5) %>% 
+  select(-rings)
+
+abalone %>% 
+  ggplot(aes(longest_shell, age, fill = type)) + 
+  geom_point(shape  = 21, alpha = 0.75) -> abplot
+
+```
+] .pull-right[
+
+```{r, echo = FALSE}
+abplot
+```
+
+]
+
+---
+
+
+# Step 1a: Split into testing and training
+
+We've got a solid amount of data here, so let's hold out 25% of our data for "testing"
+
+Only real advantage of rsample::initial_split is memory (and some nice time features)
+
+```{r}
+abalone_split <- rsample::initial_split(abalone, prop = 0.75)
+abalone_split
+```
+
+Could also do stratified sampling if desired
+
+```{r}
+abalone_strata_split <-
+  rsample::initial_split(abalone,
+                         prop = 0.9,
+                         strata = "age",
+                         breaks = 6)
+
 ```
 
 ---
 
-# HTML Widgets
 
-I have not thoroughly tested HTML widgets against **xaringan**. Some may work well, and some may not. It is a little tricky.
+# Step 1b: Analysis and Assessment splits
 
-Similarly, the Shiny mode (`runtime: shiny`) does not work. I might get these issues fixed in the future, but these are not of high priority to me. I never turn my presentation into a Shiny app. When I need to demonstrate more complicated examples, I just launch them separately. It is convenient to share slides with other people when they are plain HTML/JS applications.
 
-See the next page for two HTML widgets.
+```{r, echo = FALSE}
 
----
+include_graphics(here("presentations","imgs","overfit.png"))
 
-```{r out.width='100%', fig.height=6, eval=require('leaflet')}
-library(leaflet)
-leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 17)
 ```
 
 ---
 
-```{r eval=require('DT'), tidy=FALSE}
-DT::datatable(
-  head(iris, 10),
-  fillContainer = FALSE, options = list(pageLength = 8)
+# Step 1b: Analysis and Assessment splits
+
+We now need to break our training data into analysis and assessment splits. 
+
+We'll use these splits to tune and compare candidate models. 
+  - How deep should the tree go?
+  - How many layers should our Neural Net have?
+
+There are lots of options for this most common being k(v)-fold cross validation 
+
+```{r, echo = FALSE}
+
+include_graphics(here("presentations","imgs","vfold.png"))
+
+
+```
+
+.footnote[Kuhn & Johnson 2016]
+
+---
+
+
+# Step 1b: Analysis and Assessment splits
+
+
+```{r}
+
+abalone_vfold <- abalone_split %>% 
+  rsample::training() %>% 
+  rsample::vfold_cv(v = 5, repeats = 2)
+
+abalone_vfold 
+
+```
+
+---
+
+
+# Step 2: Analysis and Assessment splits
+
+Can also stratify if we're worried about rare ages
+
+
+```{r}
+
+abalone_vfold <- abalone_split %>% 
+  rsample::training() %>% 
+  rsample::vfold_cv(v = 5, repeats = 2, strata = age, breaks = 6)
+
+abalone_vfold %>% 
+  mutate(dat = map(splits, analysis))
+
+```
+
+---
+
+# Step 2: Preprocessing (feature engineering)
+
+Statistics usually refers to transformations/encodings etc. as "preprocessing"
+
+Just because, computer science usually calls if "feature engineering"
+
+Examples
+
+  - Centering and scaling
+  
+  - PCA
+  
+  - Dummy variables
+  
+  - Interactions
+  
+  - Imputation
+  
+How can we do this on the abalone data?
+
+---
+
+
+# Step 2: Preprocessing
+
+**Absolutely critical to avoid data leakages**
+
+Common mistake: Center and scale the data, then split, train etc. 
+
+  - The "testing" data has leaked into the mean used in the "training" data
+  
+We always want to do our preprocessing on the most "inner" step of our resampling, e.g. each v-fold split. 
+
+enter `recipes`!
+
+
+```{r, echo = FALSE}
+include_graphics(here("presentations","imgs","recipes.png"))
+
+```
+
+
+---
+
+
+# `recipes`
+
+`recipes` is an incredibly handy package for breaking preprocssing steps into a series of pipable operations
+
+  - Allows for transformations from training data to be applied to testing data
+  
+  - For now, let's pull out one "analysis" split
+  
+```{r}
+
+analysis_data <- rsample::analysis(abalone_vfold$splits[[1]])
+
+assessment_data <- rsample::assessment(abalone_vfold$splits[[1]])
+
+age_recipe <- recipe(age ~ ., data = analysis_data)
+
+age_recipe
+
+```
+
+---
+
+# wtf
+
+---
+
+# `recipes`
+
+Preprocessing operations are specified by `step_` functions
+
+Suppose we want to center and scale all the numeric predictors, and add dummy variables for "type
+
+
+```{r}
+
+age_recipe <- recipe(age ~ ., data = analysis_data) %>% 
+  step_center(all_numeric(), -all_outcomes()) %>% 
+  step_scale(all_numeric(),-all_outcomes()) %>% 
+  step_dummy(all_nominal())
+
+age_recipe
+
+```
+
+---
+
+# `recipes`
+
+We now have a portable recipe that we can apply to new datasets. 
+
+To follow the theme, we can now "prepare" (`prep`) the recipe using our analysis data. 
+
+Prepping calculates and stores the steps of the recipe using the supplied data 
+
+
+```{r}
+
+prepped_abalone <- prep(age_recipe, data = analysis_data)
+
+prepped_abalone
+```
+
+
+---
+
+# `recipes`
+
+Once we've prepped our recipe, we can now apply it to data using `bake`
+
+
+```{r}
+
+baked_abalone <- bake(prepped_abalone, new_data = analysis_data)
+
+glimpse(baked_abalone)
+
+```
+
+---
+
+
+# `recipes`
+
+Importantly, `bake` allows you to apply the steps "prepped" from one dataset to another!
+
+In this case, we can now bake our assessment data using, using the means and standard deviations from the analysis split contained in our prepped recipe.  
+
+```{r}
+
+baked_assessment_abalone <- bake(prepped_abalone, new_data = assessment_data)
+
+glimpse(baked_assessment_abalone)
+
+```
+
+---
+
+
+# Exercise
+
+Explore alternative `step_` functions in recipes. What does step_knn do?
+
+---
+
+
+# Step 3 Tune and Select Models
+
+OK we're getting pretty close. We now have a preprocessed analysis and assessment splits. 
+
+What should we use? We saw that there are **tons** of ML models out there, and different versions of the same model. 
+
+  - Not always clear reasons to pick one over the other
+  
+We want to try lots of different models, but this can be a pain....
+
+---
+
+# Step 3 Tune and Select Models
+
+```{r, echo = TRUE, eval = FALSE}
+# From randomForest
+rf_1 <-
+  randomForest(x,y,mtry = 12,ntree = 2000,importance = TRUE)
+
+# From ranger
+rf_2 <- ranger(
+  y ~ ., 
+  data = dat, 
+  mtry = 12, 
+  num.trees = 2000, 
+  importance = 'impurity'
+)
+
+# From sparklyr
+rf_3 <- ml_random_forest(
+  dat, 
+  intercept = FALSE, 
+  response = "y", 
+  features = names(dat)[names(dat) != "y"], 
+  col.sample.rate = 12,
+  num.trees = 2000
 )
 ```
-
 ---
 
-# Some Tips
 
-- When you use the "Infinite Moon Reader" addin in RStudio, your R session will be blocked by default. You can click the red button on the right of the console to stop serving the slides, or use the _daemonized_ mode so that it does not block your R session. To do the latter, you can set the option
+# enter `parsnip`
 
-    ```r
-    options(servr.daemon = TRUE)
-    ```
-    
-    in your current R session, or in `~/.Rprofile` so that it is applied to all future R sessions. I do the latter by myself.
-    
-    To know more about the web server, see the [**servr**](https://github.com/yihui/servr) package.
+The old solution to this problem was `caret`.
+  - Centralized package for tuning and fitting models
+  - Bit of a black box
+  - Inconsistent naming conventions
+  
+`parsnip` to the rescue!
 
---
-
-- Do not forget to try the `yolo` option of `xaringan::moon_reader`.
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        yolo: true
-    ```
-
----
-
-# Some Tips
-
-- Slides can be automatically played if you set the `autoplay` option under `nature`, e.g. go to the next slide every 30 seconds in a lightning talk:
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        nature:
-          autoplay: 30000
-    ```
-
---
-
-- A countdown timer can be added to every page of the slides using the `countdown` option under `nature`, e.g. if you want to spend one minute on every page when you give the talk, you can set:
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        nature:
-          countdown: 60000
-    ```
-
-    Then you will see a timer counting down from `01:00`, to `00:59`, `00:58`, ... When the time is out, the timer will continue but the time turns red.
-    
----
-
-# Some Tips
-
-- The title slide is created automatically by **xaringan**, but it is just another remark.js slide added before your other slides.
-
-    The title slide is set to `class: center, middle, inverse, title-slide` by default. You can change the classes applied to the title slide with the `titleSlideClass` option of `nature` (`title-slide` is always applied).
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        nature:
-          titleSlideClass: [top, left, inverse]
-    ```
-    
---
-
-- If you'd like to create your own title slide, disable **xaringan**'s title slide with the `seal = FALSE` option of `moon_reader`.
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        seal: false
-    ```
-
----
-
-# Some Tips
-
-- There are several ways to build incremental slides. See [this presentation](https://slides.yihui.name/xaringan/incremental.html) for examples.
-
-- The option `highlightLines: true` of `nature` will highlight code lines that start with `*`, or are wrapped in `{{ }}`, or have trailing comments `#<<`;
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        nature:
-          highlightLines: true
-    ```
-
-    See examples on the next page.
-
----
-
-# Some Tips
-
-
-.pull-left[
-An example using a leading `*`:
-
-    ```r
-    if (TRUE) {
-    ** message("Very important!")
-    }
-    ```
-Output:
-```r
-if (TRUE) {
-* message("Very important!")
-}
-```
-
-This is invalid R code, so it is a plain fenced code block that is not executed.
-]
-
-.pull-right[
-An example using `{{}}`:
-
-````
-`r ''````{r tidy=FALSE}
-if (TRUE) {
-*{{ message("Very important!") }}
-}
-```
-````
-Output:
-```{r tidy=FALSE}
-if (TRUE) {
-{{ message("Very important!") }}
-}
-```
-
-It is valid R code so you can run it. Note that `{{}}` can wrap an R expression of multiple lines.
-]
-
----
-
-# Some Tips
-
-An example of using the trailing comment `#<<` to highlight lines:
-
-````markdown
-`r ''````{r tidy=FALSE}
-library(ggplot2)
-ggplot(mtcars) + 
-  aes(mpg, disp) + 
-  geom_point() +   #<<
-  geom_smooth()    #<<
-```
-````
-
-Output:
-
-```{r tidy=FALSE, eval=FALSE}
-library(ggplot2)
-ggplot(mtcars) + 
-  aes(mpg, disp) + 
-  geom_point() +   #<<
-  geom_smooth()    #<<
+```{r, echo = FALSE}
+include_graphics(here("presentations","imgs","parsnip.png"))
 ```
 
 ---
 
-# Some Tips
 
-When you enable line-highlighting, you can also use the chunk option `highlight.output` to highlight specific lines of the text output from a code chunk. For example, `highlight.output = TRUE` means highlighting all lines, and `highlight.output = c(1, 3)` means highlighting the first and third line.
+# `parsnip`
 
-````md
-`r ''````{r, highlight.output=c(1, 3)}
-head(iris)
+`parsnip` breaks the model fitting process into a series of pipable steps. 
+  - Also standardized naming imputs!
+  
+process (e.g. random forest) + engine (the package to use) + fit it!
+  
+```{r}
+
+abalone_xgboost <- parsnip::boost_tree(mode = "regression",mtry = 4, trees = 2000) %>% 
+  parsnip::set_engine("xgboost") %>% 
+  fit(age ~ ., data = baked_abalone)
+
+abalone_rf <- parsnip::rand_forest(mode = "regression",mtry = 4, trees = 2000) %>% 
+  parsnip::set_engine("ranger") %>% 
+  fit(age ~ ., data = baked_abalone)
+
+abalone_lm <- parsnip::linear_reg(mode = "regression") %>% 
+  parsnip::set_engine("stan") %>% 
+  fit(age ~ ., data = baked_abalone)
+
+
 ```
-````
-
-```{r, highlight.output=c(1, 3), echo=FALSE}
-head(iris)
-```
-
-Question: what does `highlight.output = c(TRUE, FALSE)` mean? (Hint: think about R's recycling of vectors)
-
+  
 ---
 
-# Some Tips
+# parsnip
 
-- To make slides work offline, you need to download a copy of remark.js in advance, because **xaringan** uses the online version by default (see the help page `?xaringan::moon_reader`).
+To make things even better, `parsnip` has standardized the predict function! Every prediction from parsnip comes back as a tibble with the same number of rows as the data passed to predict (by default with column )
 
-- You can use `xaringan::summon_remark()` to download the latest or a specified version of remark.js. By default, it is downloaded to `libs/remark-latest.min.js`.
-
-- Then change the `chakra` option in YAML to point to this file, e.g.
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        chakra: libs/remark-latest.min.js
-    ```
-
-- If you used Google fonts in slides (the default theme uses _Yanone Kaffeesatz_, _Droid Serif_, and _Source Code Pro_), they won't work offline unless you download or install them locally. The Heroku app [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/fonts) can help you download fonts and generate the necessary CSS.
-
----
-
-# Macros
-
-- remark.js [allows users to define custom macros](https://github.com/yihui/xaringan/issues/80) (JS functions) that can be applied to Markdown text using the syntax `![:macroName arg1, arg2, ...]` or `![:macroName arg1, arg2, ...](this)`. For example, before remark.js initializes the slides, you can define a macro named `scale`:
-
-    ```js
-    remark.macros.scale = function (percentage) {
-      var url = this;
-      return '<img src="' + url + '" style="width: ' + percentage + '" />';
-    };
-    ```
-
-    Then the Markdown text
-
-    ```markdown
-    ![:scale 50%](image.jpg)
-    ```
-
-    will be translated to
-    
-    ```html
-    <img src="image.jpg" style="width: 50%" />
-    ```
-
----
-
-# Macros (continued)
-
-- To insert macros in **xaringan** slides, you can use the option `beforeInit` under the option `nature`, e.g.,
-
-    ```yaml
-    output:
-      xaringan::moon_reader:
-        nature:
-          beforeInit: "macros.js"
-    ```
-
-    You save your remark.js macros in the file `macros.js`.
-
-- The `beforeInit` option can be used to insert arbitrary JS code before `remark.create()`. Inserting macros is just one of its possible applications.
-
----
-
-# CSS
-
-Among all options in `xaringan::moon_reader`, the most challenging but perhaps also the most rewarding one is `css`, because it allows you to customize the appearance of your slides using any CSS rules or hacks you know.
-
-You can see the default CSS file [here](https://github.com/yihui/xaringan/blob/master/inst/rmarkdown/templates/xaringan/resources/default.css). You can completely replace it with your own CSS files, or define new rules to override the default. See the help page `?xaringan::moon_reader` for more information.
-
----
-
-# CSS
-
-For example, suppose you want to change the font for code from the default "Source Code Pro" to "Ubuntu Mono". You can create a CSS file named, say, `ubuntu-mono.css`:
-
-```css
-@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-
-.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-```
-
-Then set the `css` option in the YAML metadata:
-
-```yaml
-output:
-  xaringan::moon_reader:
-    css: ["default", "ubuntu-mono.css"]
-```
-
-Here I assume `ubuntu-mono.css` is under the same directory as your Rmd.
-
-See [yihui/xaringan#83](https://github.com/yihui/xaringan/issues/83) for an example of using the [Fira Code](https://github.com/tonsky/FiraCode) font, which supports ligatures in program code.
-
----
-
-# Themes
-
-Don't want to learn CSS? Okay, you can use some user-contributed themes. A theme typically consists of two CSS files `foo.css` and `foo-fonts.css`, where `foo` is the theme name. Below are some existing themes:
 
 ```{r}
-names(xaringan:::list_css())
+
+analysis_preds <- baked_abalone %>% 
+  bind_cols(
+    predict(abalone_xgboost, new_data = baked_abalone)
+  )
+
+analysis_preds %>% 
+  ggplot(aes(age, .pred)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  geom_abline(slope = 1, intercept = 0)
+
+```
+
+
+---
+
+
+# parsnip
+
+```{r}
+
+assessment_preds <- baked_assessment_abalone %>% 
+  bind_cols(
+    predict(abalone_lm, new_data = baked_assessment_abalone)
+  )
+
+assessment_preds %>% 
+  ggplot(aes(age, .pred)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  geom_abline(slope = 1, intercept = 0)
+
 ```
 
 ---
 
-# Themes
+# parsnip
 
-To use a theme, you can specify the `css` option as an array of CSS filenames (without the `.css` extensions), e.g.,
+```{r}
 
-```yaml
-output:
-  xaringan::moon_reader:
-    css: [default, metropolis, metropolis-fonts]
+assessment_preds %>% 
+  mutate(split = "assessment") %>% 
+  bind_rows(analysis_preds %>% mutate(split = "analysis")) %>% 
+  ggplot(aes(age, .pred, color = split)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  geom_abline(slope = 1, intercept = 0)
+
+
 ```
 
-If you want to contribute a theme to **xaringan**, please read [this blog post](https://yihui.name/en/2017/10/xaringan-themes).
-
----
-class: inverse, middle, center
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/39/Naruto_Shiki_Fujin.svg)
-background-size: contain
-
-# Naruto
-
----
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
-background-size: 100px
-background-position: 90% 8%
-
-# Sharingan
-
-The R package name **xaringan** was derived<sup>1</sup> from **Sharingan**, a dōjutsu in the Japanese anime _Naruto_ with two abilities:
-
-- the "Eye of Insight"
-
-- the "Eye of Hypnotism"
-
-I think a presentation is basically a way to communicate insights to the audience, and a great presentation may even "hypnotize" the audience.<sup>2,3</sup>
-
-.footnote[
-[1] In Chinese, the pronounciation of _X_ is _Sh_ /ʃ/ (as in _shrimp_). Now you should have a better idea of how to pronounce my last name _Xie_.
-
-[2] By comparison, bad presentations only put the audience to sleep.
-
-[3] Personally I find that setting background images for slides is a killer feature of remark.js. It is an effective way to bring visual impact into your presentations.
-]
 
 ---
 
-# Naruto terminology
 
-The **xaringan** package borrowed a few terms from Naruto, such as
+# yardstick
 
-- [Sharingan](http://naruto.wikia.com/wiki/Sharingan) (写輪眼; the package name)
 
-- The [moon reader](http://naruto.wikia.com/wiki/Moon_Reader) (月読; an attractive R Markdown output format)
+```{r}
 
-- [Chakra](http://naruto.wikia.com/wiki/Chakra) (查克拉; the path to the remark.js library, which is the power to drive the presentation)
+rf_pred <- predict(abalone_rf, new_data = baked_assessment_abalone) %>% 
+  rename(rf_pred = .pred)
 
-- [Nature transformation](http://naruto.wikia.com/wiki/Nature_Transformation) (性質変化; transform the chakra by setting different options)
+lm_pred <- predict(abalone_lm, new_data = baked_assessment_abalone) %>% 
+    rename(lm_pred = .pred)
 
-- The [infinite moon reader](http://naruto.wikia.com/wiki/Infinite_Tsukuyomi) (無限月読; start a local web server to continuously serve your slides)
+evaluate <- baked_assessment_abalone %>% 
+  bind_cols(rf_pred, lm_pred) %>% 
+  pivot_longer(cols = contains("_pred"), names_to = "model", values_to = ".pred")
 
-- The [summoning technique](http://naruto.wikia.com/wiki/Summoning_Technique) (download remark.js from the web)
+evaluate %>% 
+  group_by(model) %>% 
+  yardstick::rsq(age, .pred)
 
-You can click the links to know more about them if you want. The jutsu "Moon Reader" may seem a little evil, but that does not mean your slides are evil.
 
----
 
-class: center
+```
 
-# Hand seals (印)
 
-Press `h` or `?` to see the possible ninjutsu you can use in remark.js.
-
-![](https://upload.wikimedia.org/wikipedia/commons/7/7e/Mudra-Naruto-KageBunshin.svg)
 
 ---
 
-class: center, middle
+# Hyperparameter Profiling
 
-# Thanks!
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+---
 
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+
+# 
