@@ -1,0 +1,290 @@
+/*-------------------------------------------------------------*/
+/* Fonts ----------------------------------------------------- */
+/*-------------------------------------------------------------*/
+/* Import fonts */
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+
+/* Set fonts for body text and headers */
+body { font-family: 'Helvetica', 'Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif; }
+h1, h2, h3,h4{
+  font-family: 'Gill Sans', 'Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
+  font-weight: normal;
+}
+.remark-code, .remark-inline-code { font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; }
+
+/*-------------------------------------------------------------*/
+/* General changes to remark.js defaults --------------------- */
+/*-------------------------------------------------------------*/
+/* Change size and opacity of slide numbers */
+.remark-slide-number {
+  font-size: 10pt;
+  bottom: 15px;
+  left: 30px;
+  opacity: 0.7; /* default: 0.5 */
+  color: #2E4D66;
+}
+
+/* Shrink slide content padding on top, left, and right sides */
+.remark-slide-content {
+  font-size: 20px; /* default: 20px */
+  padding: 0em 3em 1em 3em; /* default: 1em 4em 1em 4em */
+}
+
+/* Controls appearence of header on content slides */
+/* Change background color or text color here */
+h1 {
+  font-size: 36px;
+  background-color: #FFFFFF;
+  padding-top: 0.25em;
+  padding-bottom: 0.15em;
+  padding-left: 0em;
+  margin-left:  -0.75em;
+  padding-right: 1em;
+  margin-right:  -.75em;
+  border-bottom-style: solid;
+  border-bottom-color: #2E4D66
+}
+
+h2 {
+  font-size: 35px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+.pull-left {
+  margin: 0;
+  padding-top: 0;
+}
+
+h4 {
+  font-size: 36px;
+  background-color: #6A8BAD;
+  padding-top: 0.25em;
+  padding-bottom: 0.15em;
+  padding-left: 0em;
+  margin-left:  -0.5em;
+  padding-right: 1em;
+  margin-right:  -.5em;
+}
+
+/* For footer with black sfg logo on the bottom right */
+div.sfg-footer-black {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  right:  15px;
+  height: 50px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/sfg-logo-black.png");
+}
+
+/* For footer with color sfg logo on the bottom left */
+div.sfg-footer-color {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  left:  15px;
+  height: 50px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("img/sfg-logo-color.png");
+}
+
+/*---------------------------------------*/
+/* Auto-generated title slide appearance */
+/*---------------------------------------*/
+/* This stuff controls the title slide generated from the YAML frontmatter when you have seal: true */
+.title-slide {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: white;
+  text-shadow: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-family: "Helvetica";
+}
+/* Turn slide numbers off for title slide */
+.title-slide .remark-slide-number{
+  display: none;
+}
+/* Title appearance */
+.title-slide h1 {
+  background-color: white;
+  color: black;
+  font-size: 38pt;
+  font-weight: bold;
+  text-align: left;
+  margin: -100px 0 0 0px;
+  padding: 20px 50px 7px 50px;
+  border-bottom-style: none;
+}
+/* Header photo above title. Will be solid color if no title-photo is added */
+.title-slide h1:before {
+  display:block;
+  content: "";
+  width: 120%;
+  height: 350px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("img/school.png");
+  background-color: #14253f;
+  margin: 0 0 20px -50px;
+  border-bottom: solid;
+}
+/* Subtitle appearance */
+.title-slide h2 {
+  background-color: white;
+  color: black;
+  font-size: 26pt;
+  font-weight: bold;
+  text-align: left;
+  margin: -1px 0 0 0;
+  padding: 7px 50px 7px 50px;
+}
+/* Authors appearance */
+.title-slide h3:nth-of-type(1) {
+  background-color: white;
+  color: black;
+  font-size: 20pt;
+  text-align: left;
+  margin: -1px 0 0 0;
+  padding: 10px 50px 5px 50px;
+}
+/*  mess and other info appearance */
+.title-slide h3:nth-of-type(2) {
+  background-color: white;
+  color: black;
+  font-size: 18pt;
+  font-style: italic;
+  text-align: left;
+  margin: 0;
+  padding: 5px 50px 2em 50px;
+}
+/* Logo(s) accrossed the bottom. Change file(s) and position(s) for single logo */
+.title-slide h3:nth-of-type(2):after {
+  position: absolute;
+  content: "";
+  width: 90%;
+  height: 3em;
+  background: url(img/Signature_Left_Purple_Hex.png);
+  background-position: left center, center, right center;
+  background-size: 260px, contain, 200px;
+  background-repeat: no-repeat;
+  margin: 0;
+  bottom: 20px;
+  left: 40px;
+}
+
+div.scrooge-footer {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  right:  15px;
+  height: 75px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/scrooge-hex.png");
+}
+
+div.skynet-footer {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  right:  15px;
+  height: 75px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/skynet-hex.png");
+}
+
+div.zissou-footer {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  right:  15px;
+  height: 75px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/zissou-hex.png");
+}
+
+
+div.scrooge-header {
+content: "";
+  position: absolute;
+  top: 45px;
+  right:  15px;
+  height: 75px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/scrooge-hex.png");
+}
+
+div.seagrant-footer {
+content: "";
+  position: absolute;
+  bottom: 15px;
+  right:  15px;
+  height: 75px;
+  width: 180px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  background-image: url("img/seagrant.png");
+}
+
+.large { font-size: 130% }
+.small { font-size: 70% }
+
+.footnote {
+  position: absolute;
+  bottom: 3em;
+  padding-right: 4em;
+  font-size: 90%;
+}
+.mid{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 400px;
+}
+
+.remark-slide-number {
+  position: inherit;
+}
+
+.remark-slide-number .progress-bar-container {
+  position: absolute;
+  bottom: 0;
+  height: 4px;
+  display: block;
+  left: 0;
+  right: 0;
+}
+
+.remark-slide-number .progress-bar {
+  height: 100%;
+  background-color: darkblue;
+}
+
+/*-------------------------------------------------------------*/
+/* Centered slide appearance -----------------------------------*/
+/*-------------------------------------------------------------*/

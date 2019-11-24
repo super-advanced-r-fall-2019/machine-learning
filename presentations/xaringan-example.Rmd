@@ -630,7 +630,7 @@ The old solution to this problem was `caret`.
   
 `parsnip` to the rescue!
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.height=200}
 include_graphics(here("presentations","imgs","parsnip.png"))
 ```
 
@@ -650,7 +650,7 @@ abalone_xgboost <- parsnip::boost_tree(mode = "regression",mtry = 4, trees = 200
   parsnip::set_engine("xgboost") %>% 
   fit(age ~ ., data = baked_abalone)
 
-abalone_rf <- parsnip::rand_forest(mode = "regression",mtry = 4, trees = 2000) %>% 
+abalone_rf <- parsnip::rand_forest(mode = "regression",mtry = ncol(baked_abalone) - 2, trees = 2000, min_n = 2) %>% 
   parsnip::set_engine("ranger") %>% 
   fit(age ~ ., data = baked_abalone)
 
