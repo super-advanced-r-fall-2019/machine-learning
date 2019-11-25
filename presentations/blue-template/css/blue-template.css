@@ -160,7 +160,7 @@ content: "";
   margin: -1px 0 0 0;
   padding: 10px 50px 5px 50px;
 }
-/*  mess and other info appearance */
+/* Date and other info appearance */
 .title-slide h3:nth-of-type(2) {
   background-color: white;
   color: black;

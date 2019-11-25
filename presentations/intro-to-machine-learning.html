@@ -4,7 +4,7 @@
     <title>Intro to Machine Learning with R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dan Ovando" />
-    <meta name="date" content="2019-11-24" />
+    <meta name="date" content="2019-11-25" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="blue-template/css/blue-template.css" type="text/css" />
@@ -16,8 +16,7 @@ class: center, middle, inverse, title-slide
 # Intro to Machine Learning with R
 ## Very Intro.
 ### Dan Ovando
-### University of Washington
-### 2019-11-24
+### 2019-11-25
 
 ---
 
@@ -549,15 +548,15 @@ abalone_vfold %&gt;%
 ## # A tibble: 10 x 4
 ##    splits             id      id2   dat                 
 ##  * &lt;named list&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;named list&gt;        
-##  1 &lt;split [2.5K/629]&gt; Repeat1 Fold1 &lt;df[,9] [2,504 × 9]&gt;
+##  1 &lt;split [2.5K/628]&gt; Repeat1 Fold1 &lt;df[,9] [2,505 × 9]&gt;
 ##  2 &lt;split [2.5K/627]&gt; Repeat1 Fold2 &lt;df[,9] [2,506 × 9]&gt;
 ##  3 &lt;split [2.5K/627]&gt; Repeat1 Fold3 &lt;df[,9] [2,506 × 9]&gt;
-##  4 &lt;split [2.5K/625]&gt; Repeat1 Fold4 &lt;df[,9] [2,508 × 9]&gt;
+##  4 &lt;split [2.5K/626]&gt; Repeat1 Fold4 &lt;df[,9] [2,507 × 9]&gt;
 ##  5 &lt;split [2.5K/625]&gt; Repeat1 Fold5 &lt;df[,9] [2,508 × 9]&gt;
-##  6 &lt;split [2.5K/629]&gt; Repeat2 Fold1 &lt;df[,9] [2,504 × 9]&gt;
+##  6 &lt;split [2.5K/628]&gt; Repeat2 Fold1 &lt;df[,9] [2,505 × 9]&gt;
 ##  7 &lt;split [2.5K/627]&gt; Repeat2 Fold2 &lt;df[,9] [2,506 × 9]&gt;
 ##  8 &lt;split [2.5K/627]&gt; Repeat2 Fold3 &lt;df[,9] [2,506 × 9]&gt;
-##  9 &lt;split [2.5K/625]&gt; Repeat2 Fold4 &lt;df[,9] [2,508 × 9]&gt;
+##  9 &lt;split [2.5K/626]&gt; Repeat2 Fold4 &lt;df[,9] [2,507 × 9]&gt;
 ## 10 &lt;split [2.5K/625]&gt; Repeat2 Fold5 &lt;df[,9] [2,508 × 9]&gt;
 ```
 
@@ -698,7 +697,7 @@ prepped_abalone
 ##    outcome          1
 ##  predictor          8
 ## 
-## Training data contained 2504 data points and no missing data.
+## Training data contained 2505 data points and no missing data.
 ## 
 ## Operations:
 ## 
@@ -723,18 +722,18 @@ glimpse(baked_abalone)
 ```
 
 ```
-## Observations: 2,504
+## Observations: 2,505
 ## Variables: 10
-## $ longest_shell  &lt;dbl&gt; -0.58138053, -1.45910990, -0.70677044, -1.62629645, -0…
-## $ diameter       &lt;dbl&gt; -0.43805526, -1.44906070, -0.43805526, -1.55016125, -1…
-## $ height         &lt;dbl&gt; -1.03403243, -1.14848309, -0.34732849, -1.37738440, -1…
-## $ whole_weight   &lt;dbl&gt; -0.6494171, -1.2382094, -0.6453353, -1.2800473, -0.981…
-## $ shucked_weight &lt;dbl&gt; -0.61635150, -1.18199729, -0.65707800, -1.22724895, -0…
-## $ viscera_weight &lt;dbl&gt; -0.73278567, -1.21110108, -0.61434567, -1.29309800, -0…
-## $ shell_weight   &lt;dbl&gt; -0.642289269, -1.216008340, -0.606431827, -1.323580666…
-## $ age            &lt;dbl&gt; 16.5, 8.5, 11.5, 8.5, 9.5, 10.5, 12.5, 11.5, 13.5, 8.5…
-## $ type_I         &lt;dbl&gt; 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …
-## $ type_M         &lt;dbl&gt; 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, …
+## $ longest_shell  &lt;dbl&gt; -1.42618470, 0.06263683, -1.59160932, -0.80584240, 0.0…
+## $ diameter       &lt;dbl&gt; -1.41623739, 0.13569818, -1.51636226, -1.06580032, 0.0…
+## $ height         &lt;dbl&gt; -1.11104802, -0.08944936, -1.33806994, -0.99753706, 0.…
+## $ whole_weight   &lt;dbl&gt; -1.21013280, -0.29632321, -1.25162360, -0.95511617, -0…
+## $ shucked_weight &lt;dbl&gt; -1.160019745, -0.452994385, -1.205053207, -0.973130876…
+## $ viscera_weight &lt;dbl&gt; -1.18684757, -0.34160535, -1.26864521, -0.92327742, -0…
+## $ shell_weight   &lt;dbl&gt; -1.19636556, -0.19501018, -1.30365364, -0.83873864, 0.…
+## $ age            &lt;dbl&gt; 8.5, 10.5, 8.5, 9.5, 21.5, 17.5, 10.5, 20.5, 15.5, 11.…
+## $ type_I         &lt;dbl&gt; 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, …
+## $ type_M         &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, …
 ```
 
 ---
@@ -754,18 +753,18 @@ glimpse(baked_assessment_abalone)
 ```
 
 ```
-## Observations: 629
+## Observations: 628
 ## Variables: 10
-## $ longest_shell  &lt;dbl&gt; 0.04556902, 0.21275556, 0.00377238, -0.45599062, 0.212…
-## $ diameter       &lt;dbl&gt; 0.11799774, 0.32019883, -0.28640444, -0.53915580, 0.06…
-## $ height         &lt;dbl&gt; -0.11842718, 0.22492479, -0.00397652, -0.91958177, -0.…
-## $ whole_weight   &lt;dbl&gt; -0.31675450, 0.12713573, -0.46063617, -0.72799074, -0.…
-## $ shucked_weight &lt;dbl&gt; -0.47154618, -0.20908654, -0.75436907, -0.87428598, -0…
-## $ viscera_weight &lt;dbl&gt; -0.36379951, -0.27724719, -0.30913489, -0.91955645, 0.…
-## $ shell_weight   &lt;dbl&gt; -0.21199997, 0.57686376, -0.21199997, -0.39128718, -0.…
-## $ age            &lt;dbl&gt; 10.5, 20.5, 15.5, 11.5, 10.5, 12.5, 19.5, 20.5, 9.5, 8…
-## $ type_I         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, …
-## $ type_M         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, …
+## $ longest_shell  &lt;dbl&gt; -0.55770548, -0.68177394, -0.59906163, 0.68297913, 0.2…
+## $ diameter       &lt;dbl&gt; -0.41498863, -0.41498863, -0.86555057, 0.68638500, 0.1…
+## $ height         &lt;dbl&gt; -0.99753706, -0.31647128, -0.88402609, 0.93214930, -0.…
+## $ whole_weight   &lt;dbl&gt; -0.62622568, -0.62217779, -0.89540990, 0.22888960, 0.0…
+## $ shucked_weight &lt;dbl&gt; -0.59710146, -0.63763158, -0.84028216, 0.16621572, 0.0…
+## $ viscera_weight &lt;dbl&gt; -0.70969471, -0.59154257, -0.94599898, 0.36276317, 0.1…
+## $ shell_weight   &lt;dbl&gt; -0.62416248, -0.58839979, -0.87450133, 0.41295559, 0.2…
+## $ age            &lt;dbl&gt; 16.5, 11.5, 10.5, 16.5, 15.5, 8.5, 9.5, 11.5, 9.5, 9.5…
+## $ type_I         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, …
+## $ type_M         &lt;dbl&gt; 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, …
 ```
 
 ---
@@ -941,7 +940,7 @@ evaluate %&gt;%
 ## # A tibble: 1 x 3
 ##   model   rsquared  rmse
 ##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
-## 1 rf_pred    0.559  2.18
+## 1 rf_pred    0.539  2.19
 ```
 
 ---
@@ -990,15 +989,15 @@ param_grid &lt;- tidyr::expand_grid(
 ## # A tibble: 320 x 8
 ##     mtry trees splitrule min_n sampid        splits             id      id2  
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;         &lt;list&gt;             &lt;chr&gt;   &lt;chr&gt;
-##  1     1   100 variance      2 Repeat1Fold1- &lt;split [2.5K/629]&gt; Repeat1 Fold1
+##  1     1   100 variance      2 Repeat1Fold1- &lt;split [2.5K/628]&gt; Repeat1 Fold1
 ##  2     1   100 variance      2 Repeat1Fold2- &lt;split [2.5K/627]&gt; Repeat1 Fold2
 ##  3     1   100 variance      2 Repeat1Fold3- &lt;split [2.5K/627]&gt; Repeat1 Fold3
-##  4     1   100 variance      2 Repeat1Fold4- &lt;split [2.5K/625]&gt; Repeat1 Fold4
+##  4     1   100 variance      2 Repeat1Fold4- &lt;split [2.5K/626]&gt; Repeat1 Fold4
 ##  5     1   100 variance      2 Repeat1Fold5- &lt;split [2.5K/625]&gt; Repeat1 Fold5
-##  6     1   100 variance      2 Repeat2Fold1- &lt;split [2.5K/629]&gt; Repeat2 Fold1
+##  6     1   100 variance      2 Repeat2Fold1- &lt;split [2.5K/628]&gt; Repeat2 Fold1
 ##  7     1   100 variance      2 Repeat2Fold2- &lt;split [2.5K/627]&gt; Repeat2 Fold2
 ##  8     1   100 variance      2 Repeat2Fold3- &lt;split [2.5K/627]&gt; Repeat2 Fold3
-##  9     1   100 variance      2 Repeat2Fold4- &lt;split [2.5K/625]&gt; Repeat2 Fold4
+##  9     1   100 variance      2 Repeat2Fold4- &lt;split [2.5K/626]&gt; Repeat2 Fold4
 ## 10     1   100 variance      2 Repeat2Fold5- &lt;split [2.5K/625]&gt; Repeat2 Fold5
 ## # … with 310 more rows
 ```
@@ -2373,7 +2372,7 @@ best_fit$summary$rmse
 ```
 
 ```
-## [1] 2.071354
+## [1] 2.286769
 ```
 
 ---
@@ -2419,7 +2418,7 @@ yardstick::rmse(data = testing_abalone, truth = age, estimate = pred)
 ## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rmse    standard        2.14
+## 1 rmse    standard        2.29
 ```
 
 ---
@@ -2471,9 +2470,95 @@ Try different models/engines
 
 ---
 
+# What's a Neural Net?
+
+.pull-left[
+xkcd isn't far off: it's basically a pile of linear algebra
+
+
+```r
+x = c(1:5) 
+
+hidden_layer &lt;- x %*% matrix(rnorm(20),nrow = length(x), ncol = 10) # the matrix are the "weights"
+
+hidden_layer
+```
+
+```
+##           [,1]      [,2]     [,3]      [,4]      [,5]      [,6]     [,7]
+## [1,] -3.462141 -8.585757 1.526777 -5.458958 -3.462141 -8.585757 1.526777
+##           [,8]      [,9]     [,10]
+## [1,] -5.458958 -3.462141 -8.585757
+```
+
+}
+] .pull-right[
+
+&lt;img src="/Users/danovan/teaching/fsh_507-s-a-r_fall-2019/machine-learning/presentations/imgs/nn2.png" width="1413" style="display: block; margin: auto;" /&gt;
+
+
+
+]
+
+
+---
+
+# Neural Networks
+
+.pull-left[
+
+* Mostly used for
+  - image recognition (photos, videos)
+  - text processing/translation
+  - time series
+
+NNets are really useful for timeseries since you can program them to have "memory"
+
+  - Takes lots of data
+  - Slow(er) - collapse timeseries into format usable by other types?
+
+
+] .pull-right[
+
+&lt;img src="/Users/danovan/teaching/fsh_507-s-a-r_fall-2019/machine-learning/presentations/imgs/nn3.png" width="2363" style="display: block; margin: auto;" /&gt;
+
+.footnote[[vas3k.com/](https://vas3k.com/blog/machine_learning/)]
+]
+
+
+---
+
+
+# What's Deep Learning?
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+Basically, just Neural Networks with lots&lt;sup&gt;1&lt;/sup&gt; of layers
+
+.footnote[1: no real definition of lots]
+
+---
+
 # An Example to Show Off ML
 
 [see keras intro](https://keras.rstudio.com/)
+---
+
+
+# Additional Resources
+
+
+- [Applied Predictive Modeling](http://appliedpredictivemodeling.com/)
+
+- [Deep Learning with R](https://www.manning.com/books/deep-learning-with-r)
+
+- [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/)
+
+- [Machine Learning for Everyone](https://vas3k.com/blog/machine_learning/)
+
+- [Hands-On Machine Learning with R](https://bradleyboehmke.github.io/HOML/)
+
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

@@ -2,7 +2,6 @@
 title: "Intro to Machine Learning with R"
 subtitle: "Very Intro."
 author: "Dan Ovando"
-institute: "University of Washington"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -946,6 +945,7 @@ param_grid %>%
   group_by(mtry, trees, min_n, splitrule) %>% 
   summarise(rmse = mean(rmse)) %>% 
   ggplot(aes(mtry, rmse, color = factor(trees))) + 
+  geom_line() +
   geom_point() +
   facet_grid(min_n ~ splitrule)
 
@@ -1086,8 +1086,109 @@ Try different models/engines
 
 ---
 
+# What's a Neural Net?
+
+.pull-left[
+xkcd isn't far off: it's basically a pile of linear algebra
+
+```{r}
+
+x = c(1:5) 
+
+hidden_layer <- x %*% matrix(rnorm(20),nrow = length(x), ncol = 10) # the matrix are the "weights"
+
+hidden_layer
+
+```
+
+}
+] .pull-right[
+
+```{r, echo = FALSE}
+
+knitr::include_graphics(here("presentations","imgs", "nn2.png"))
+
+```
+
+
+
+]
+
+
+---
+
+# Neural Networks
+
+.pull-left[
+
+* Mostly used for
+  - image recognition (photos, videos)
+  - text processing/translation
+  - time series
+
+NNets are really useful for timeseries since you can program them to have "memory"
+
+  - Takes lots of data
+  - Slow(er) - collapse timeseries into format usable by other types?
+
+
+] .pull-right[
+
+```{r, echo = FALSE}
+
+knitr::include_graphics(here("presentations","imgs", "nn3.png"))
+
+```
+
+.footnote[[vas3k.com/](https://vas3k.com/blog/machine_learning/)]
+]
+
+
+---
+
+
+# What's Deep Learning?
+
+<br>
+<br>
+<br>
+Basically, just Neural Networks with lots<sup>1</sup> of layers
+
+.footnote[1: no real definition of lots]
+
+---
+
+# A quick note on uncertainty
+
+- Not a thing that's touched on much
+
+  - See Yarin Gal, “Uncertainty in Deep Learning (PhD Thesis),” October 13, 2016, http://mlg.eng.cam .ac.uk/yarin/blog_2248.html.
+
+- Focus is generally much more in classifying performance in terms of say accuracy
+
+- No canned way that I know of to define uncertainty around most standard ML predicitons
+
+- Bootstrap the data?
+---
+
 # An Example to Show Off ML
 
 [see keras intro](https://keras.rstudio.com/)
 ---
 
+
+# Additional Resources
+
+
+- [Applied Predictive Modeling](http://appliedpredictivemodeling.com/)
+
+- [Deep Learning with R](https://www.manning.com/books/deep-learning-with-r)
+
+- [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/)
+
+- [Machine Learning for Everyone](https://vas3k.com/blog/machine_learning/)
+
+- [Hands-On Machine Learning with R](https://bradleyboehmke.github.io/HOML/)
+
+- [Max Kuhn's intro to parsnip](https://resources.rstudio.com/rstudio-conf-2019/parsnip-a-tidy-model-interface)
+---
